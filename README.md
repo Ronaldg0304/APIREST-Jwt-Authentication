@@ -44,19 +44,19 @@ src/main/java/com/miempresa/autenticacionJWT
  ```
 # Configuración
 1. Variables de entorno: 
-Crea un archivo .env en la raíz del proyecto.
+Crea un archivo .env en la raíz del proyecto con tu información.
 
 ## Database
-DB_URL=your_url_database
-DB_USER=your_user
-DB_PASSWORD=your_password
+- DB_URL=your_url_database 
+- DB_USER=your_user 
+- DB_PASSWORD=your_password
 
 ## JWT
-JWT_SECRET=your_jwt_secret_here
+- JWT_SECRET=your_jwt_secret_here
 
 ## Mail
-MAIL_USER=your_email_test
-MAIL_PASS=your_app_password_here
+- MAIL_USER=your_email_test
+- MAIL_PASS=your_app_password_here
 
 
 Tu archivo application.properties debe usar estas variables:
@@ -107,42 +107,87 @@ POST /api/v1/auth/forgot-password → Enviar token de recuperación al correo
 
 POST /api/v1/auth/reset-password → Cambiar contraseña con token
 
-📋 Ejemplo de respuesta JSON (RFC 9294)
-{
-  "type": "https://api.miapp.com/errors/unauthorized",
-  "title": "Unauthorized",
-  "status": 401,
-  "detail": "El token JWT es inválido o ha expirado",
-  "timestamp": "2025-08-26T15:00:00Z"
-}
+## Ejemplo: 
+## Resquest
 
-🚀 Habilidades aplicadas y obtenidas
+**POST /api/v1/auth/register → Registro de usuario**
+```
+{   
+    "firstName": "UserTest",
+    "secondName": "",
+    "firstLastName": "User",
+    "secondLastName": "Test",
+    "email": "userTest@gmail.com",
+    "username":"userTest2025",
+    "password":"UserTest@2025",
+    "role": "USER"
+}
+```
+## Response
+
+```
+{
+    "success": true,
+    "type": null,
+    "title": "Operation successful",
+    "status": "CREATED",
+    "data": {
+        "authenticationToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyVGVzdDIwMjUiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaWF0IjoxNzU2MjMyODU2LCJleHAiOjE3NTYyMzQyOTZ9.UnJNJ22muMcz9fd9aqmOyuTId-B-gjYE7xG1W-WAfbs",
+        "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyVGVzdDIwMjUiLCJpYXQiOjE3NTYyMzI4NTYsImV4cCI6MTc1NjgzNzY1Nn0.Z7nQveJ-I7KeJWNHD-o22nunjr2avFjWZGYzM7IcPIg"
+    },
+    "timestamp": "2025-08-26T18:27:36.174365800Z",
+    "instance": null,
+    "error": null
+}
+```
+
+## Ejemplo error: 
+## Error request
+
+**POST /api/v1/auth/register → Registro de usuario**
+
+```
+{   
+    "firstName": "UserTest",
+    "secondName": "",
+    "firstLastName": "User",
+    "secondLastName": "Test",
+    "email": "userTest@gmail.com",
+    "username":"",
+    "password":"UserTest@2025",
+    "role": "USER"
+}
+```
+## Error response
+
+```
+{
+    "success": false,
+    "type": "VALIDATION_ERROR",
+    "title": "Error de validación",
+    "status": "BAD_REQUEST",
+    "data": null,
+    "timestamp": "2025-08-26T18:30:00.604894300Z",
+    "instance": "/api/v1/auth/register",
+    "error": {
+        "status": "BAD_REQUEST",
+        "description": "Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.demo.autenticacion.autenticacionJWT.apiResponse.ApiResponse<?>> com.demo.autenticacion.autenticacionJWT.controllers.AuthenticationController.register(com.demo.autenticacion.autenticacionJWT.dtos.RegisterRequest) with 3 errors: [Field error in object 'registerRequest' on field 'username': rejected value []; codes [NotBlank.registerRequest.username,NotBlank.username,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [registerRequest.username,username]; arguments []; default message [username]]; default message [Username is required]] [Field error in object 'registerRequest' on field 'username': rejected value []; codes [Pattern.registerRequest.username,Pattern.username,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [registerRequest.username,username]; arguments []; default message [username],[Ljakarta.validation.constraints.Pattern$Flag;@1f7800ce,^[a-zA-Z0-9_]+$]; default message [Username can only contain letters, numbers, and underscores]] [Field error in object 'registerRequest' on field 'username': rejected value []; codes [Size.registerRequest.username,Size.username,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [registerRequest.username,username]; arguments []; default message [username],20,3]; default message [Username must be between 3 and 20 characters]] ",
+        "traceId": null,
+        "details": {
+            "username": "Username is required; Username can only contain letters, numbers, and underscores; Username must be between 3 and 20 characters"
+        }
+    }
+}
+```
+## Habilidades aplicadas y obtenidas
 
 Este proyecto refleja habilidades clave para un desarrollador backend junior:
 
-🏗️ Diseño y construcción de APIs REST seguras con JWT.
-
-⚖️ Manejo de excepciones y respuestas estandarizadas con @RestControllerAdvice.
-
-✅ Validación de datos con Bean Validation para evitar entradas inválidas.
-
-📦 Gestión de dependencias y buenas prácticas en Spring Boot.
-
-🛠️ Integración de correo electrónico (SMTP) para funcionalidades de negocio.
-
-🔐 Buenas prácticas de seguridad: variables de entorno, no exponer secretos en el código.
-
-📚 Uso de Lombok para mantener el código limpio y legible.
-
-🧩 Arquitectura modular y escalable, fácil de mantener y extender.
-
-📄 Licencia
-
-Este proyecto se distribuye bajo la licencia MIT.
-
-
----
-
-👉 Este README.md ya está listo para subir a tu repositorio y mostrar tanto tu proyecto como tus **habilidades backend**.  
-
-¿Quieres que además te arme un **ejemplo del objeto `ApiResponse` genérico** que puedes documentar en el README para mostrar cómo estandarizas las respuestas de tu API?
+- Diseño y construcción de APIs REST seguras con JWT. 
+- Manejo de excepciones y respuestas estandarizadas con @RestControllerAdvice. 
+- Validación de datos con Bean Validation para evitar entradas inválidas. 
+- Gestión de dependencias y buenas prácticas en Spring Boot. 
+- Integración de correo electrónico (SMTP) para funcionalidades de negocio. 
+- Buenas prácticas de seguridad: variables de entorno, no exponer secretos en el código. 
+- Uso de Lombok para mantener el código limpio y legible. 
+- Arquitectura modular y escalable, fácil de mantener y extender.
